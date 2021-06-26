@@ -20,9 +20,28 @@ struct encoded_image
     std::vector<std::vector<double>> blue_blocks;
 
     encoded_image() = default;
+
+    /**
+     * Encode image into square blocks block_size x block_size
+     * @param block_size length of the block side
+     * @param img image to be processed
+     */
     explicit encoded_image(uint32_t block_size, img& img);
+
+    /**
+     * Decode encoded image back to PNG img structure.
+     * @return PNG image represented by encoded blocks.
+     */
     explicit operator img() const;
 
+    /**
+     * Compute CRLS PCA algorithm for each of the colour components and transform back to the encoded_image
+     * structure.
+     * @param components number of components to compute
+     * @param MAX_EPOCHS max. number of epochs per component
+     * @param eps epsilon value of an algorithm
+     * @return Compressed-decompressed image
+     */
     encoded_image crls_pca(uint32_t components, uint32_t MAX_EPOCHS, double eps) const;
 };
 

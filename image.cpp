@@ -5,8 +5,10 @@
 #include "logging.hpp"
 #include "image.hpp"
 #include "crls_pca.hpp"
+#include "utils.hpp"
 #include <cmath>
 #include <execution>
+
 
 encoded_image::encoded_image(uint32_t block_size, img &img) {
     log("Encoding PNG image. Block size: %d.", block_size);
@@ -51,6 +53,7 @@ encoded_image::encoded_image(uint32_t block_size, img &img) {
     log("Encoded %d blocks", red.size());
 }
 
+
 encoded_image::operator img() const {
     log("Decoding to image");
     img image(image_width, image_height);
@@ -80,16 +83,6 @@ encoded_image::operator img() const {
     return image;
 }
 
-std::vector<std::vector<double>> transpose (const std::vector<std::vector<double>>& matrix) {
-    std::vector<std::vector<double>> res (matrix.front().size());
-    for(int i=0; i<res.size(); ++i) {
-        res[i].resize(matrix.size());
-        for(int j=0; j<matrix.size(); ++j)
-            res[i][j] = matrix[j][i];
-    }
-
-    return res;
-}
 
 encoded_image encoded_image::crls_pca(uint32_t components, uint32_t MAX_EPOCHS, double eps) const {
     log("Requesting CRLS PCA encode-decode on image");

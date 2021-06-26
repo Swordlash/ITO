@@ -1,4 +1,4 @@
-//
+// Definition of Principal Components structure
 // Created by Mateusz Goslinowski on 25/06/2021.
 //
 
@@ -15,8 +15,5 @@ struct pc
     vector<double> mean;
     vector<vector<double>> transformed;
 };
-
-vector<double> operator+(const vector<double>&, const vector<double>&);
-vector<double> operator*(const vector<vector<double>>&, const vector<double>&);
 
 #endif //ITO_PCA_HPP
