@@ -6,20 +6,11 @@
 #define ITO_CRLS_PCA_HPP
 
 #include <vector>
+#include "pca.hpp"
 
 using std::vector;
 
-constexpr uint32_t MAX_EPOCHS = 100;
-constexpr double eps = 5e-9;
-
-struct pc
-{
-    vector<vector<double>> weights;
-    vector<double> mean;
-    vector<vector<double>> transformed;
-};
-
-pc crls_pca(uint32_t, vector<vector<double>>);
+pc crls_pca(uint32_t, vector<vector<double>>, uint32_t, double);
 vector<double> operator+(const vector<double>& u, const vector<double>& v);
 vector<double> operator*(const vector<vector<double>>& w, const vector<double>& v);
 

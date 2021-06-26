@@ -23,7 +23,7 @@ struct encoded_image
     explicit encoded_image(uint32_t block_size, img& img);
     explicit operator img() const;
 
-    encoded_image crls_pca(uint32_t components) const;
+    encoded_image crls_pca(uint32_t components, uint32_t MAX_EPOCHS, double eps) const;
 };
 
 

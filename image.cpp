@@ -2,12 +2,15 @@
 // Created by Mateusz Goslinowski on 15/06/2021.
 //
 
+#include "logging.hpp"
 #include "image.hpp"
 #include "crls_pca.hpp"
 #include <cmath>
 #include <execution>
 
 encoded_image::encoded_image(uint32_t block_size, img &img) {
+    log("Encoding PNG image. Block size: %d.", block_size);
+
     std::vector<std::vector<double>> red, green, blue;
     std::vector<std::vector<double>> created(3);
 
@@ -44,9 +47,12 @@ encoded_image::encoded_image(uint32_t block_size, img &img) {
     this->blue_blocks = blue;
     this->image_width = img.get_width();
     this->image_height = img.get_height();
+
+    log("Encoded %d blocks", red.size());
 }
 
 encoded_image::operator img() const {
+    log("Decoding to image");
     img image(image_width, image_height);
 
 
@@ -70,6 +76,7 @@ encoded_image::operator img() const {
         }
     }
 
+    log("Decoded % blocks.", red_blocks.size());
     return image;
 }
 
@@ -84,10 +91,17 @@ std::vector<std::vector<double>> transpose (const std::vector<std::vector<double
     return res;
 }
 
-encoded_image encoded_image::crls_pca(uint32_t components) const {
-    auto encoded_red = ::crls_pca(components, red_blocks);
-    auto encoded_green = ::crls_pca(components, green_blocks);
-    auto encoded_blue = ::crls_pca(components, blue_blocks);
+encoded_image encoded_image::crls_pca(uint32_t components, uint32_t MAX_EPOCHS, double eps) const {
+    log("Requesting CRLS PCA encode-decode on image");
+
+    log("Calculating red component PCA");
+    auto encoded_red = ::crls_pca(components, red_blocks, MAX_EPOCHS, eps);
+
+    log("Calculating green component PCA");
+    auto encoded_green = ::crls_pca(components, green_blocks, MAX_EPOCHS, eps);
+
+    log("Calculating blue component PCA");
+    auto encoded_blue = ::crls_pca(components, blue_blocks, MAX_EPOCHS, eps);
 
     std::vector<std::vector<double>> red(encoded_red.transformed.size());
     std::transform(std::execution::par_unseq, encoded_red.transformed.begin(), encoded_red.transformed.end(), red.begin(), [&](auto& v) {

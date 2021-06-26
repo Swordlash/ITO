@@ -6,6 +6,7 @@
 #include "test.hpp"
 #include <png.hpp>
 #include <random>
+#include <execution>
 
 using png::image;
 using png::rgb_pixel;
@@ -17,33 +18,16 @@ int main() {
     std::function<uint8_t()> rand = std::bind(dist, gen);
 
     std::cout << "Testing image encoding/decoding" << std::endl;
-    run_test(10, std::bind(test_case_encode_decode, rand));
-
-    std::cout << "Testing crls pca" << std::endl;
-    run_test(1, std::bind(test_case_crls_pca, rand));
+    run_test(100, std::bind(test_case_encode_decode, rand));
 
     return 0;
 }
 
 
-bool imgs_equal(const image<rgb_pixel>& img1, const image<rgb_pixel>& img2) {
-    if(img1.get_height() != img2.get_height()) return false;
-    if(img2.get_width() != img2.get_width()) return false;
-
-    for(int i=0; i<img1.get_width(); ++i)
-    {
-        for(int j=0; j<img1.get_height(); ++j)
-        {
-            if(img1[j][i].red != img2[j][i].red
-            || img1[j][i].green != img2[j][i].green
-            || img1[j][i].blue != img2[j][i].blue) return false;
-        }
-    }
-    return true;
-}
 
 image<rgb_pixel> rand_image(std::function<uint8_t()>& rand) {
     image<rgb_pixel> img(rand()+1, rand()+1);
+
     for(int i=0; i<img.get_width(); ++i)
         for(int j=0; j<img.get_height(); ++j)
         {
@@ -70,23 +54,10 @@ void run_test(int no_cases, const std::function<void()>& test_case) {
 void test_case_encode_decode(std::function<uint8_t()>& rand) {
     auto img = rand_image(rand);
 
-    auto encoded = encoded_image(img.get_width()*img.get_height() / (rand() + 1) + 1, img);
+    auto encoded = encoded_image(rand() % 100, img);
     auto decoded = static_cast<image<rgb_pixel>>(encoded);
 
     if(!imgs_equal(img, decoded))
         throw std::logic_error("Images not equal after encoding/decoding");
 }
 
-void test_case_crls_pca(std::function<uint8_t()>& rand) {
-    image<rgb_pixel> img("/Users/mateusz/ITO/build/trasa.png");
-
-    auto encoded = encoded_image(3, img);
-
-    auto decoded1 = static_cast<image<rgb_pixel>>(encoded);
-    decoded1.write("/Users/mateusz/ITO/build/trasa2.png");
-
-    auto enc_dec = encoded.crls_pca(9);
-
-    image<rgb_pixel> decoded = static_cast<image<rgb_pixel>>(enc_dec);
-    decoded.write("/Users/mateusz/ITO/build/trasa3.png");
-}
