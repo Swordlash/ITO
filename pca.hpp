@@ -16,4 +16,7 @@ struct pc
     vector<vector<double>> transformed;
 };
 
+vector<double> operator+(const vector<double>&, const vector<double>&);
+vector<double> operator*(const vector<vector<double>>&, const vector<double>&);
+
 #endif //ITO_PCA_HPP

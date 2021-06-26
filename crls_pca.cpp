@@ -1,4 +1,4 @@
-//
+// Implementation of CRLS PCA algorithm.
 // Created by Mateusz Goslinowski on 16/06/2021.
 //
 
@@ -33,13 +33,7 @@ vector<double> operator-(const vector<double>& u, const vector<double>& v)
     return res;
 }
 
-vector<double> operator+(const vector<double>& u, const vector<double>& v)
-{
-    vector<double> res(u.size());
-    std::transform(std::execution::par_unseq, u.begin(), u.end(), v.begin(), res.begin(), std::plus<>());
 
-    return res;
-}
 
 double dist_sq(const vector<double>& u, const vector<double>& v) {
     return dot(u-v, u-v);
@@ -54,16 +48,6 @@ vector<double> operator*(double x, const vector<double>& v) {
     vector<double> res(v.size());
 
     std::transform(std::execution::par_unseq, v.begin(), v.end(), res.begin(), std::bind(std::multiplies<>(), _1, x));
-    return res;
-}
-
-vector<double> operator*(const vector<vector<double>>& w, const vector<double>& v) {
-    vector<double> res(w.size());
-
-    std::transform(std::execution::par_unseq, w.begin(), w.end(), res.begin(), [&](auto& wv) {
-        return std::transform_reduce(std::execution::par_unseq, wv.begin(), wv.end(), v.begin(), 0.0);
-    });
-
     return res;
 }
 

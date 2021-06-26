@@ -24,7 +24,6 @@ int main() {
 }
 
 
-
 image<rgb_pixel> rand_image(std::function<uint8_t()>& rand) {
     image<rgb_pixel> img(rand()+1, rand()+1);
 
