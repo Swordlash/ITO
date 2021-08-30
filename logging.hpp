@@ -45,10 +45,10 @@ void log( const std::string&& format, Args ... args )
     auto now = std::chrono::high_resolution_clock::now();
     auto tc = std::chrono::high_resolution_clock::to_time_t(now);
 
+    std::cout << std::put_time(std::localtime(&tc), "[%F %T] ") << msg << std::endl;
+
     if(log_filename != "")
         log_stream << std::put_time(std::localtime(&tc), "[%F %T] ") << msg << std::endl;
-
-    else std::cout << std::put_time(std::localtime(&tc), "[%F %T] ") << msg << std::endl;
 }
 
 #endif //ITO_LOGGING_HPP

@@ -7,6 +7,10 @@ find_package(ZLIB REQUIRED)
 
 enable_testing()
 
+if (APPLE)
+    set(PKG_CONFIG_EXECUTABLE /opt/homebrew/bin/pkg-config)
+endif()
+
 # search for pkg-config
 include (FindPkgConfig)
 if (NOT PKG_CONFIG_FOUND)
@@ -24,7 +28,7 @@ else ()
 endif ()
 
 set(CMAKE_CXX_STANDARD 20)
-include_directories(${PNG_INCLUDE_DIR} png)
+include_directories(${PNG_INCLUDE_DIR} png Eigen)
 
 # Glob for the project files
 add_executable(ITO main.cpp ${LIBPNG_LINK_FLAGS} image.hpp image.cpp crls_pca.hpp crls_pca.cpp logging.hpp test.hpp test_utils.cpp pca.hpp utils.cpp utils.hpp)
