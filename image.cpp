@@ -97,6 +97,8 @@ encoded_image encoded_image::crls_pca(uint32_t components, uint32_t MAX_EPOCHS, 
     log("Calculating blue component PCA");
     auto encoded_blue = ::crls_pca(components, blue_blocks, MAX_EPOCHS, eps);
 
+    log("Computing reverse transform, adding back means");
+
     std::vector<std::vector<double>> red(encoded_red.transformed.size());
     std::transform(std::execution::par_unseq, encoded_red.transformed.begin(), encoded_red.transformed.end(), red.begin(), [&](auto& v) {
        return encoded_red.mean + transpose(encoded_red.weights) * v;
