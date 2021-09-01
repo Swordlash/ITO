@@ -105,23 +105,7 @@ pc crls_pca(uint32_t m, vector<vector<double>> xs, uint32_t MAX_EPOCHS, double e
        return w*v;
     });
 
-    auto input_size = std::transform_reduce(std::execution::par_unseq,
-                                               xs.begin(), xs.end(), 0,
-                                               std::plus<>(), std::mem_fn(&vector<double>::size));
-
-    auto weights = std::transform_reduce(std::execution::par_unseq,
-                                               w.begin(), w.end(), 0,
-                                               std::plus<>(), std::mem_fn(&vector<double>::size));
-
-    auto output_size = std::transform_reduce(std::execution::par_unseq,
-                                               res.transformed.begin(), res.transformed.end(), 0,
-                                               std::plus<>(), std::mem_fn(&vector<double>::size));
-
     log("Truncated eigenvalues:\n%s", print_matrix(w).c_str());
-
-    log("Finished. Input size (bytes): %d, output size (bytes, with weights): %d",
-        input_size * sizeof(double),
-        (weights + output_size + N)*sizeof(double));
 
     return res;
 }

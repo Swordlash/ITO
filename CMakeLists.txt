@@ -33,5 +33,5 @@ include_directories(${PNG_INCLUDE_DIR} png Eigen)
 # Glob for the project files
 add_executable(ITO main.cpp ${LIBPNG_LINK_FLAGS} image.hpp image.cpp crls_pca.hpp crls_pca.cpp logging.hpp test.hpp test_utils.cpp pca.hpp utils.cpp utils.hpp svd_pca.hpp svd_pca.cpp)
 
-add_executable(ITO_test ${LIBPNG_LINK_FLAGS} test.cpp test_utils.cpp test.hpp image.cpp image.hpp crls_pca.cpp crls_pca.hpp pca.hpp utils.cpp svd_pca.hpp svd_pca.cpp)
+add_executable(ITO_test ${LIBPNG_LINK_FLAGS} test.cpp test_utils.cpp test.hpp image.cpp image.hpp crls_pca.cpp crls_pca.hpp pca.hpp utils.cpp utils.hpp svd_pca.hpp svd_pca.cpp)
 add_test(ITO_test ITO_test "" ITO_test)

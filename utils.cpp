@@ -80,11 +80,17 @@ vector<double> mean(const vector<vector<double>>& xs) {
 std::string print_matrix(const vector<vector<double>> &w) {
     std::stringstream ss;
 
-    for(int i=0; i<w.size(); ++i) {
-        for(int j=0; j<w[i].size(); ++j)
-            ss << w[i][j] << " ";
+    for(const auto & xs : w) {
+        for(double x : xs)
+            ss << x << " ";
         ss << "\n";
     }
 
     return ss.str();
+}
+
+int matrix_size(const vector<vector<double>> &w) {
+    return std::transform_reduce(std::execution::par_unseq,
+                                 w.begin(), w.end(), 0,
+                                 std::plus<>(), std::mem_fn(&vector<double>::size));
 }

@@ -6,6 +6,7 @@
 #define ITO_IMAGE_HPP
 
 #include <png.hpp>
+#include <functional>
 #include "crls_pca.hpp"
 
 using img = png::image<png::rgb_pixel>;
@@ -53,6 +54,13 @@ struct encoded_image
      * @return Compressed-decompressed image
      */
     encoded_image svd_pca(uint32_t components) const;
+
+    /**
+     * General PCA compression-decompression function
+     * @param pca_function function used to calculate principal components
+     * @return Compressed-decompressed image
+     */
+    encoded_image general_pca(const std::function<pc(std::vector<std::vector<double>>)>& pca_function) const;
 };
 
 

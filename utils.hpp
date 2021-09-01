@@ -86,4 +86,11 @@ vector<double> mean(const vector<vector<double>>& xs);
  */
 std::string print_matrix(const vector<vector<double>>& w);
 
+/**
+ * Calculate a size of a matrix (a number of entries)
+ * @param w A matrix to measure
+ * @return A number of entries in the matrix;
+ */
+int matrix_size(const vector<vector<double>>& w);
+
 #endif //ITO_UTILS_HPP

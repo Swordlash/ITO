@@ -10,6 +10,7 @@
 #include <cmath>
 #include <execution>
 
+using namespace std::placeholders;
 
 encoded_image::encoded_image(uint32_t block_size, img &img) {
     log("Encoding PNG image. Block size: %d.", block_size);
@@ -86,56 +87,32 @@ encoded_image::operator img() const {
 
 
 encoded_image encoded_image::crls_pca(uint32_t components, uint32_t MAX_EPOCHS, double eps) const {
-    log("Requesting CRLS PCA encode-decode on image");
-
-    log("Calculating red component PCA");
-    auto encoded_red = ::crls_pca(components, red_blocks, MAX_EPOCHS, eps);
-
-    log("Calculating green component PCA");
-    auto encoded_green = ::crls_pca(components, green_blocks, MAX_EPOCHS, eps);
-
-    log("Calculating blue component PCA");
-    auto encoded_blue = ::crls_pca(components, blue_blocks, MAX_EPOCHS, eps);
-
-    log("Computing reverse transform, adding back means");
-
-    std::vector<std::vector<double>> red(encoded_red.transformed.size());
-    std::transform(std::execution::par_unseq, encoded_red.transformed.begin(), encoded_red.transformed.end(), red.begin(), [&](auto& v) {
-       return encoded_red.mean + transpose(encoded_red.weights) * v;
-    });
-
-    std::vector<std::vector<double>> green(encoded_green.transformed.size());
-    std::transform(std::execution::par_unseq, encoded_green.transformed.begin(), encoded_green.transformed.end(), green.begin(), [&](auto& v) {
-        return encoded_green.mean + transpose(encoded_green.weights) * v;
-    });
-
-    std::vector<std::vector<double>> blue(encoded_blue.transformed.size());
-    std::transform(std::execution::par_unseq, encoded_blue.transformed.begin(), encoded_blue.transformed.end(), blue.begin(), [&](auto& v) {
-        return encoded_blue.mean + transpose(encoded_blue.weights) * v;
-    });
-
-    encoded_image img;
-    img.block_size = block_size;
-    img.image_width = image_width;
-    img.image_height = image_height;
-    img.red_blocks = std::move(red);
-    img.green_blocks = std::move(green);
-    img.blue_blocks = std::move(blue);
-
-    return img;
+    return this->general_pca(std::bind(::crls_pca, components, _1, MAX_EPOCHS, eps));
 }
 
 encoded_image encoded_image::svd_pca(uint32_t components) const {
+    return this->general_pca(std::bind(::svd_pca, components, _1));
+}
+
+encoded_image encoded_image::general_pca(const std::function<pc(std::vector<std::vector<double>>)>& pca_function) const {
     log("Requesting SVD PCA encode-decode on image");
 
     log("Calculating red component PCA");
-    auto encoded_red = ::svd_pca(components, red_blocks);
+    auto encoded_red = pca_function(red_blocks);
 
     log("Calculating green component PCA");
-    auto encoded_green = ::svd_pca(components, green_blocks);
+    auto encoded_green = pca_function(green_blocks);
 
     log("Calculating blue component PCA");
-    auto encoded_blue = ::svd_pca(components, blue_blocks);
+    auto encoded_blue = pca_function(blue_blocks);
+
+    auto input_size = matrix_size(red_blocks) + matrix_size(green_blocks) + matrix_size(blue_blocks);
+    auto weights = matrix_size(encoded_red.weights) + matrix_size(encoded_green.weights) + matrix_size(encoded_blue.weights);
+    auto output_size = matrix_size(encoded_red.transformed) + matrix_size(encoded_green.transformed) + matrix_size(encoded_blue.transformed);
+
+    log("Finished. Input size (bytes): %d, output size (bytes, with weights): %d",
+        input_size * sizeof(double),
+        (weights + output_size)*sizeof(double));
 
     std::vector<std::vector<double>> red(encoded_red.transformed.size());
     std::transform(std::execution::par_unseq, encoded_red.transformed.begin(), encoded_red.transformed.end(), red.begin(), [&](auto& v) {
@@ -162,4 +139,5 @@ encoded_image encoded_image::svd_pca(uint32_t components) const {
 
     return img;
 }
+
 
