@@ -117,6 +117,8 @@ pc crls_pca(uint32_t m, vector<vector<double>> xs, uint32_t MAX_EPOCHS, double e
                                                res.transformed.begin(), res.transformed.end(), 0,
                                                std::plus<>(), std::mem_fn(&vector<double>::size));
 
+    log("Truncated eigenvalues:\n%s", print_matrix(w).c_str());
+
     log("Finished. Input size (bytes): %d, output size (bytes, with weights): %d",
         input_size * sizeof(double),
         (weights + output_size + N)*sizeof(double));

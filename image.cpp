@@ -4,6 +4,7 @@
 
 #include "logging.hpp"
 #include "image.hpp"
+#include "svd_pca.hpp"
 #include "crls_pca.hpp"
 #include "utils.hpp"
 #include <cmath>
@@ -99,6 +100,44 @@ encoded_image encoded_image::crls_pca(uint32_t components, uint32_t MAX_EPOCHS, 
     std::vector<std::vector<double>> red(encoded_red.transformed.size());
     std::transform(std::execution::par_unseq, encoded_red.transformed.begin(), encoded_red.transformed.end(), red.begin(), [&](auto& v) {
        return encoded_red.mean + transpose(encoded_red.weights) * v;
+    });
+
+    std::vector<std::vector<double>> green(encoded_green.transformed.size());
+    std::transform(std::execution::par_unseq, encoded_green.transformed.begin(), encoded_green.transformed.end(), green.begin(), [&](auto& v) {
+        return encoded_green.mean + transpose(encoded_green.weights) * v;
+    });
+
+    std::vector<std::vector<double>> blue(encoded_blue.transformed.size());
+    std::transform(std::execution::par_unseq, encoded_blue.transformed.begin(), encoded_blue.transformed.end(), blue.begin(), [&](auto& v) {
+        return encoded_blue.mean + transpose(encoded_blue.weights) * v;
+    });
+
+    encoded_image img;
+    img.block_size = block_size;
+    img.image_width = image_width;
+    img.image_height = image_height;
+    img.red_blocks = std::move(red);
+    img.green_blocks = std::move(green);
+    img.blue_blocks = std::move(blue);
+
+    return img;
+}
+
+encoded_image encoded_image::svd_pca(uint32_t components) const {
+    log("Requesting SVD PCA encode-decode on image");
+
+    log("Calculating red component PCA");
+    auto encoded_red = ::svd_pca(components, red_blocks);
+
+    log("Calculating green component PCA");
+    auto encoded_green = ::svd_pca(components, green_blocks);
+
+    log("Calculating blue component PCA");
+    auto encoded_blue = ::svd_pca(components, blue_blocks);
+
+    std::vector<std::vector<double>> red(encoded_red.transformed.size());
+    std::transform(std::execution::par_unseq, encoded_red.transformed.begin(), encoded_red.transformed.end(), red.begin(), [&](auto& v) {
+        return encoded_red.mean + transpose(encoded_red.weights) * v;
     });
 
     std::vector<std::vector<double>> green(encoded_green.transformed.size());

@@ -81,7 +81,13 @@ int main(int argc, char* argv[]) {
     png::image<png::rgb_pixel> img(input_file);
     encoded_image encoded(block_size, img);
 
-    auto encoded_decoded = encoded.crls_pca(components, max_epochs, eps);
+    encoded_image encoded_decoded;
+
+    if(args.contains("use-library-pca"))
+        encoded_decoded = encoded.svd_pca(components);
+    else
+        encoded_decoded = encoded.crls_pca(components, max_epochs, eps);
+
     auto decoded_img = static_cast<png::image<png::rgb_pixel>>(encoded_decoded);
 
     log("Decoded. PSNR value: %lf dB. Writing to %s.", psnr(img, decoded_img), output_file.c_str());

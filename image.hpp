@@ -43,6 +43,16 @@ struct encoded_image
      * @return Compressed-decompressed image
      */
     encoded_image crls_pca(uint32_t components, uint32_t MAX_EPOCHS, double eps) const;
+
+    /**
+     * Compute PCA algorithm (through SVD transformation) for each of the colour components and transform back to the encoded_image
+     * structure.
+     * @param components number of components to compute
+     * @param MAX_EPOCHS max. number of epochs per component
+     * @param eps epsilon value of an algorithm
+     * @return Compressed-decompressed image
+     */
+    encoded_image svd_pca(uint32_t components) const;
 };
 
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include "utils.hpp"
 #include <execution>
+#include "logging.hpp"
 
 using std::vector;
 
@@ -74,4 +75,16 @@ vector<double> mean(const vector<vector<double>>& xs) {
     return std::accumulate(xs.begin(), xs.end(), zero, [](auto&& x, auto&& y) {
         return x+y;
     }) / (double) xs.size();
+}
+
+std::string print_matrix(const vector<vector<double>> &w) {
+    std::stringstream ss;
+
+    for(int i=0; i<w.size(); ++i) {
+        for(int j=0; j<w[i].size(); ++j)
+            ss << w[i][j] << " ";
+        ss << "\n";
+    }
+
+    return ss.str();
 }

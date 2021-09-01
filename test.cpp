@@ -53,7 +53,7 @@ void run_test(int no_cases, const std::function<void()>& test_case) {
 void test_case_encode_decode(std::function<uint8_t()>& rand) {
     auto img = rand_image(rand);
 
-    auto encoded = encoded_image(rand() % 100, img);
+    auto encoded = encoded_image(2+rand() % 100, img);
     auto decoded = static_cast<image<rgb_pixel>>(encoded);
 
     if(!imgs_equal(img, decoded))

@@ -6,6 +6,7 @@
 #define ITO_UTILS_HPP
 
 #include <vector>
+#include <string>
 
 using std::vector;
 
@@ -78,5 +79,11 @@ vector<double> operator/(const vector<double>& v, double x);
  * @return a mean vector
  */
 vector<double> mean(const vector<vector<double>>& xs);
+
+/**
+ * Prints the matrix to the string.
+ * @param w matrix to be printed
+ */
+std::string print_matrix(const vector<vector<double>>& w);
 
 #endif //ITO_UTILS_HPP
