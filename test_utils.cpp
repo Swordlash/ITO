@@ -1,4 +1,4 @@
-//
+// Test utilities implementation.
 // Created by Mateusz Goslinowski on 26/06/2021.
 //
 #include "test.hpp"

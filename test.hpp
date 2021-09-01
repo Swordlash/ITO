@@ -1,4 +1,4 @@
-//
+// Test utilities.
 // Created by Mateusz Goslinowski on 16/06/2021.
 //
 

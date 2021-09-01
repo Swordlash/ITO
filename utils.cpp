@@ -1,4 +1,4 @@
-//
+// Numeric utilities implementation.
 // Created by Mateusz Goslinowski on 26/06/2021.
 //
 

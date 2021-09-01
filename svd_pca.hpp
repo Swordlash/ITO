@@ -1,4 +1,4 @@
-//
+// Library implementation of PCA algorithm (using divide-and-conquer SVD).
 // Created by Mateusz Goslinowski on 30/08/2021.
 //
 

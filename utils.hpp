@@ -1,4 +1,4 @@
-//
+// Numeric utilities.
 // Created by Mateusz Goslinowski on 26/06/2021.
 //
 

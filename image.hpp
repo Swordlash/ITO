@@ -1,4 +1,4 @@
-//
+// Definition of an encoded_image structure.
 // Created by Mateusz Goslinowski on 15/06/2021.
 //
 

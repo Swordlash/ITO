@@ -1,4 +1,4 @@
-// Definitions of functions used in CRLS PCA algorithm.
+// Implementation of CRLS PCA algorithm.
 // Created by Mateusz Goslinowski on 16/06/2021.
 //
 

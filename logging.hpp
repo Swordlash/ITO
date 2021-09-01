@@ -1,4 +1,4 @@
-//
+// Logging utilities.
 // Created by Mateusz Goslinowski on 25/06/2021.
 //
 
