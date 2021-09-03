@@ -78,7 +78,7 @@ pc crls_pca(uint32_t m, vector<vector<double>> xs, uint32_t MAX_EPOCHS, double e
             }
         }
 
-        if(w[j].empty())
+        if(w[j].empty()) // shouldn't happen as we check it before, but left here just in case
             throw std::invalid_argument(
                     "Maximum number of epochs exceeded not reaching a given epsilon\nEnlarge the number of epochs or epsilon");
 
@@ -88,6 +88,7 @@ pc crls_pca(uint32_t m, vector<vector<double>> xs, uint32_t MAX_EPOCHS, double e
             errors[j][k] = errors[j-1][k] - ys[j][k] * w[j];
         }
     }
+    log("Residual error after all %d components: %lf", m, length_square_2d(errors[m]) / (double) N);
 
     log("CRLS-PCA finished, computing transformation");
 
@@ -104,8 +105,6 @@ pc crls_pca(uint32_t m, vector<vector<double>> xs, uint32_t MAX_EPOCHS, double e
                    [&w] (auto& v) {
        return w*v;
     });
-
-    log("Truncated eigenvalues:\n%s", print_matrix(w).c_str());
 
     return res;
 }

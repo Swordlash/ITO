@@ -8,12 +8,11 @@
 #include "logging.hpp"
 #include "utils.hpp"
 #include <vector>
-#include <functional>
 #include <numeric>
 #include <execution>
 
-#include "Eigen/Dense"
-#include "Eigen/SVD"
+#include "external_libs/Eigen/Dense"
+#include "external_libs/Eigen/SVD"
 
 using namespace std;
 using namespace Eigen;
@@ -60,8 +59,6 @@ pc svd_pca(uint32_t m, vector<vector<double>> xs) {
                    [&w] (auto& v) {
                        return w*v;
                    });
-
-    log("Truncated eigenvalues:\n%s", print_matrix(w).c_str());
 
     return res;
 }

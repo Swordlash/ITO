@@ -18,7 +18,7 @@ void parse_args(int argc, char* argv[]) {
             if(pos != -1) {
                 key = arg.substr(2, pos-2);
                 val = arg.substr(pos+1);
-                std::cout << key << " " << val << std::endl;
+                log("Key %s specified to %s", key.c_str(), val.c_str());
             }
             else {
                 key = arg.substr(2);
@@ -39,10 +39,10 @@ void assert_arg(std::string&& arg) {
 void print_help(char* argv[]) {
     std::cout << ("Usage: " + std::string(argv[0])
       + " --input_file=<INPUT FILE.png>\n  --output-file=<OUTPUT_FILE.png>\n"
-      + "  --max-epochs=<MAX_EPOCH_NUMBER, default 100>\n  --eps=<EPSILON NUMBER, default 1e-6>\n"
+      + "  [--max-epochs=<MAX_EPOCH_NUMBER, default 100>]\n  [--eps=<EPSILON NUMBER, default 1e-6>]\n"
       + "  [--block-size=<BLOCK SIZE (square), default 8]\n"
       + "  [--components=<COMPONENTS, default 4>]\n"
-      + "  [--log-file=<LOG FILE>] [--use-library-pca]") << std::endl;
+      + "  [--log-file=<LOG FILE>]\n  [--use-library-pca]") << std::endl;
 }
 
 int main(int argc, char* argv[]) {

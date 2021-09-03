@@ -18,7 +18,7 @@ int main() {
     std::function<uint8_t()> rand = std::bind(dist, gen);
 
     std::cout << "Testing image encoding/decoding" << std::endl;
-    run_test(100, std::bind(test_case_encode_decode, rand));
+    run_test(1000, std::bind(test_case_encode_decode, rand));
 
     return 0;
 }
