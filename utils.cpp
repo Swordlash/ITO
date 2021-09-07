@@ -77,18 +77,6 @@ vector<double> mean(const vector<vector<double>>& xs) {
     }) / (double) xs.size();
 }
 
-std::string print_matrix(const vector<vector<double>> &w) {
-    std::stringstream ss;
-
-    for(const auto & xs : w) {
-        for(double x : xs)
-            ss << x << " ";
-        ss << "\n";
-    }
-
-    return ss.str();
-}
-
 int matrix_size(const vector<vector<double>> &w) {
     return std::transform_reduce(std::execution::par_unseq,
                                  w.begin(), w.end(), 0,

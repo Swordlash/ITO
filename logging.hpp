@@ -5,35 +5,23 @@
 #ifndef ITO_LOGGING_HPP
 #define ITO_LOGGING_HPP
 
-#include <fstream>
-#include "logging.hpp"
 #include <string>
-#include <memory>
+#include <fstream>
 #include <stdexcept>
 #include <chrono>
 #include <ctime>
 #include <iostream>
 #include <iomanip>
 
-static std::string log_filename = "";
-static std::fstream log_stream;
+extern std::fstream log_stream;
 
-static void set_logging(std::string& log_file) {
-    log_filename = log_file;
-    log_stream.open(log_file, std::fstream::out | std::fstream::trunc);
-}
-
-static void set_logging(std::string&& log_file) {
-    log_filename = std::move(log_file);
-    log_stream.open(log_filename, std::fstream::out | std::fstream::trunc);
-}
+void set_logging(std::string& log_file);
 
 // workaround for std::format not being supported by any compiler right now :(
 // source: https://stackoverflow.com/questions/2342162/stdstring-formatting-like-sprintf/8098080
 
 template<typename ... Args>
-void log( const std::string&& format, Args ... args )
-{
+void log( const std::string&& format, Args ... args ) {
     int size_s = snprintf( nullptr, 0, format.c_str(), args ... ) + 1; // Extra space for '\0'
     if( size_s <= 0 ){ throw std::runtime_error( "Error during formatting." ); }
     auto size = static_cast<size_t>( size_s );
@@ -47,7 +35,7 @@ void log( const std::string&& format, Args ... args )
 
     std::cout << std::put_time(std::localtime(&tc), "[%F %T] ") << msg << std::endl;
 
-    if(log_filename != "")
+    if(log_stream.is_open())
         log_stream << std::put_time(std::localtime(&tc), "[%F %T] ") << msg << std::endl;
 }
 
