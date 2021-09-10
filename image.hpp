@@ -11,8 +11,18 @@
 
 using img = png::image<png::rgb_pixel>;
 
-struct encoded_image
+class abstract_image
 {
+    explicit virtual operator img() const = 0;
+};
+
+/**
+ * Encoded image - a class representing a PNG image decoded to square blocks.
+ * Can be compressed by one of the PCA algorithms and written back to the PNG format.
+ */
+class encoded_image : public abstract_image
+{
+private:
     uint32_t block_size;
     uint32_t image_width;
     uint32_t image_height;
@@ -20,6 +30,7 @@ struct encoded_image
     std::vector<std::vector<double>> green_blocks;
     std::vector<std::vector<double>> blue_blocks;
 
+public:
     encoded_image() = default;
 
     /**
@@ -33,7 +44,7 @@ struct encoded_image
      * Decode encoded image back to PNG img structure.
      * @return PNG image represented by encoded blocks.
      */
-    explicit operator img() const;
+    explicit operator img() const override;
 
     /**
      * Compute CRLS PCA algorithm for each of the colour components and transform back to the encoded_image
