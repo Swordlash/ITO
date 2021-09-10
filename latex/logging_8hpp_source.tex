@@ -1,0 +1,47 @@
+\hypertarget{logging_8hpp_source}{}\doxysection{logging.\+hpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Logging utilities.}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Mateusz Goslinowski on 25/06/2021.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef ITO\_LOGGING\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define ITO\_LOGGING\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <fstream>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <stdexcept>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <chrono>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <ctime>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <iostream>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <iomanip>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{extern} std::fstream log\_stream;}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keywordtype}{void} set\_logging(std::string\& log\_file);}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20 \textcolor{comment}{// workaround for std::format not being supported by any compiler right now :(}}
+\DoxyCodeLine{21 \textcolor{comment}{// source: https://stackoverflow.com/questions/2342162/stdstring-\/formatting-\/like-\/sprintf/8098080}}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{template}<\textcolor{keyword}{typename} ... Args>}
+\DoxyCodeLine{24 \textcolor{keywordtype}{void} log( \textcolor{keyword}{const} std::string\&\& format, Args ... args ) \{}
+\DoxyCodeLine{25     \textcolor{keywordtype}{int} size\_s = snprintf( \textcolor{keyword}{nullptr}, 0, format.c\_str(), args ... ) + 1; \textcolor{comment}{// Extra space for '\(\backslash\)0'}}
+\DoxyCodeLine{26     \textcolor{keywordflow}{if}( size\_s <= 0 )\{ \textcolor{keywordflow}{throw} std::runtime\_error( \textcolor{stringliteral}{"{}Error during formatting."{}} ); \}}
+\DoxyCodeLine{27     \textcolor{keyword}{auto} size = \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}( size\_s );}
+\DoxyCodeLine{28     \textcolor{keyword}{auto} buf = std::make\_unique<char[]>( size );}
+\DoxyCodeLine{29     snprintf( buf.get(), size, format.c\_str(), args ... );}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31     std::string msg( buf.get(), buf.get() + size -\/ 1 ); \textcolor{comment}{// We don't want the '\(\backslash\)0' inside}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33     \textcolor{keyword}{auto} now = std::chrono::high\_resolution\_clock::now();}
+\DoxyCodeLine{34     \textcolor{keyword}{auto} tc = std::chrono::high\_resolution\_clock::to\_time\_t(now);}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36     std::cout << std::put\_time(std::localtime(\&tc), \textcolor{stringliteral}{"{}[\%F \%T] "{}}) << msg << std::endl;}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     \textcolor{keywordflow}{if}(log\_stream.is\_open())}
+\DoxyCodeLine{39         log\_stream << std::put\_time(std::localtime(\&tc), \textcolor{stringliteral}{"{}[\%F \%T] "{}}) << msg << std::endl;}
+\DoxyCodeLine{40 \}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ITO\_LOGGING\_HPP}}
+
+\end{DoxyCode}

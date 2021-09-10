@@ -1,0 +1,29 @@
+\hypertarget{test_8hpp_source}{}\doxysection{test.\+hpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Test utilities.}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Mateusz Goslinowski on 16/06/2021.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef ITO\_TEST\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define ITO\_TEST\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <png.hpp>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{keyword}{using} png::image;}
+\DoxyCodeLine{12 \textcolor{keyword}{using} png::rgb\_pixel;}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{19 \textcolor{keywordtype}{void} run\_test(\textcolor{keywordtype}{int} reps, \textcolor{keyword}{const} std::function<\textcolor{keywordtype}{void}()>\& test);}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keywordtype}{void} test\_case\_encode\_decode(std::function<uint8\_t()>\& rand);}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{29 \textcolor{keywordtype}{bool} imgs\_equal(\textcolor{keyword}{const} image<rgb\_pixel>\& img1, \textcolor{keyword}{const} image<rgb\_pixel>\& img2);}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{36 image<rgb\_pixel> rand\_image(std::function<uint8\_t()>\& rand);}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{44 \textcolor{keywordtype}{double} psnr(\textcolor{keyword}{const} image<rgb\_pixel>\& img1, \textcolor{keyword}{const} image<rgb\_pixel>\& img2);}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ITO\_TEST\_HPP}}
+
+\end{DoxyCode}

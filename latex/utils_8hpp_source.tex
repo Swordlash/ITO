@@ -1,0 +1,102 @@
+\hypertarget{utils_8hpp_source}{}\doxysection{utils.\+hpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Numeric utilities.}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Mateusz Goslinowski on 26/06/2021.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef ITO\_UTILS\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define ITO\_UTILS\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <string>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <execution>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{using} std::vector;}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{20 \textcolor{keyword}{template}<\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{21 \textcolor{keywordtype}{double} dot(\textcolor{keyword}{const} vector<T>\& u, \textcolor{keyword}{const} vector<T>\& v) \{}
+\DoxyCodeLine{22     \textcolor{keywordflow}{return} std::transform\_reduce(std::execution::par\_unseq, u.begin(), u.end(), v.begin(), 0.0);}
+\DoxyCodeLine{23 \}}
+\DoxyCodeLine{24 }
+\DoxyCodeLine{31 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{32 \textcolor{keywordtype}{double} dist\_sq(\textcolor{keyword}{const} vector<T>\& u, \textcolor{keyword}{const} vector<T>\& v) \{}
+\DoxyCodeLine{33     \textcolor{keywordflow}{return} dot(u-\/v, u-\/v);}
+\DoxyCodeLine{34 \}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{42 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{43 vector<T> operator+(\textcolor{keyword}{const} vector<T>\& u, \textcolor{keyword}{const} vector<T>\& v) \{}
+\DoxyCodeLine{44     vector<T> res(u.size());}
+\DoxyCodeLine{45     std::transform(std::execution::par\_unseq, u.begin(), u.end(), v.begin(), res.begin(), std::plus<>());}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{48 \}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{56 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{57 vector<T> operator-\/(\textcolor{keyword}{const} vector<T>\& u, \textcolor{keyword}{const} vector<T>\& v) \{}
+\DoxyCodeLine{58     vector<T> res(u.size());}
+\DoxyCodeLine{59     std::transform(std::execution::par\_unseq, u.begin(), u.end(), v.begin(), res.begin(), std::minus<>());}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{62 \}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{70 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{71 vector<T> operator*(\textcolor{keyword}{const} vector<vector<T>>\& w, \textcolor{keyword}{const} vector<T>\& v) \{}
+\DoxyCodeLine{72     vector<T> res(w.size());}
+\DoxyCodeLine{73 }
+\DoxyCodeLine{74     std::transform(std::execution::par\_unseq, w.begin(), w.end(), res.begin(), [\&](\textcolor{keyword}{auto}\& wv) \{}
+\DoxyCodeLine{75         return std::transform\_reduce(std::execution::par\_unseq, wv.begin(), wv.end(), v.begin(), 0.0);}
+\DoxyCodeLine{76     \});}
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78     \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{79 \}}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{86 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{87 std::vector<std::vector<T>> transpose (\textcolor{keyword}{const} std::vector<std::vector<T>>\& matrix) \{}
+\DoxyCodeLine{88     std::vector<std::vector<T>> res (matrix.front().size());}
+\DoxyCodeLine{89     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i<res.size(); ++i) \{}
+\DoxyCodeLine{90         res[i].resize(matrix.size());}
+\DoxyCodeLine{91         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j=0; j<matrix.size(); ++j)}
+\DoxyCodeLine{92             res[i][j] = matrix[j][i];}
+\DoxyCodeLine{93     \}}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95     \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{96 \}}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{104 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{105 vector<T> operator*(T x, \textcolor{keyword}{const} vector<T>\& v) \{}
+\DoxyCodeLine{106     \textcolor{keyword}{using} std::placeholders::\_1;}
+\DoxyCodeLine{107     vector<T> res(v.size());}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{109     std::transform(std::execution::par\_unseq, v.begin(), v.end(), res.begin(), std::bind(std::multiplies<>(), \_1, x));}
+\DoxyCodeLine{110     \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{111 \}}
+\DoxyCodeLine{112 }
+\DoxyCodeLine{119 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{120 vector<T> operator/(\textcolor{keyword}{const} vector<T>\& v, T x) \{}
+\DoxyCodeLine{121     \textcolor{keyword}{using} std::placeholders::\_1;}
+\DoxyCodeLine{122     vector<T> res(v.size());}
+\DoxyCodeLine{123 }
+\DoxyCodeLine{124     std::transform(std::execution::par\_unseq, v.begin(), v.end(), res.begin(), std::bind(std::divides<>(), \_1, x));}
+\DoxyCodeLine{125     \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{126 \}}
+\DoxyCodeLine{127 }
+\DoxyCodeLine{133 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{134 vector<T> mean(\textcolor{keyword}{const} vector<vector<T>>\& xs) \{}
+\DoxyCodeLine{135     vector<T> zero(xs.front().size(), 0.0);}
+\DoxyCodeLine{136     \textcolor{keywordflow}{return} std::accumulate(xs.begin(), xs.end(), zero, [](\textcolor{keyword}{auto}\&\& x, \textcolor{keyword}{auto}\&\& y) \{}
+\DoxyCodeLine{137         return x+y;}
+\DoxyCodeLine{138     \}) / (T) xs.size();}
+\DoxyCodeLine{139 \}}
+\DoxyCodeLine{140 }
+\DoxyCodeLine{146 \textcolor{keyword}{template} <\textcolor{keyword}{typename} T>}
+\DoxyCodeLine{147 \textcolor{keywordtype}{int} matrix\_size(\textcolor{keyword}{const} vector<vector<T>>\& w) \{}
+\DoxyCodeLine{148     \textcolor{keywordflow}{return} std::transform\_reduce(std::execution::par\_unseq,}
+\DoxyCodeLine{149                                  w.begin(), w.end(), 0,}
+\DoxyCodeLine{150                                  std::plus<>(), std::mem\_fn(\&vector<T>::size));}
+\DoxyCodeLine{151 \}}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153 }
+\DoxyCodeLine{154 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ITO\_UTILS\_HPP}}
+
+\end{DoxyCode}

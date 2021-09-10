@@ -1,0 +1,50 @@
+\hypertarget{image_8hpp_source}{}\doxysection{image.\+hpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// Definition of an encoded\_image structure.}}
+\DoxyCodeLine{2 \textcolor{comment}{// Created by Mateusz Goslinowski on 15/06/2021.}}
+\DoxyCodeLine{3 \textcolor{comment}{//}}
+\DoxyCodeLine{4 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#ifndef ITO\_IMAGE\_HPP}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define ITO\_IMAGE\_HPP}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <png.hpp>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <functional>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}crls\_pca.hpp"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{using} img = png::image<png::rgb\_pixel>;}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{classabstract__image}{abstract\_image}}}
+\DoxyCodeLine{15 \{}
+\DoxyCodeLine{16     \textcolor{keyword}{explicit} \textcolor{keyword}{virtual} \textcolor{keyword}{operator} img() \textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{17 \};}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{23 \textcolor{keyword}{class }\mbox{\hyperlink{classencoded__image}{encoded\_image}} : \textcolor{keyword}{public} \mbox{\hyperlink{classabstract__image}{abstract\_image}}}
+\DoxyCodeLine{24 \{}
+\DoxyCodeLine{25 \textcolor{keyword}{private}:}
+\DoxyCodeLine{26     uint32\_t block\_size;}
+\DoxyCodeLine{27     uint32\_t image\_width;}
+\DoxyCodeLine{28     uint32\_t image\_height;}
+\DoxyCodeLine{29     std::vector<std::vector<double>> red\_blocks;}
+\DoxyCodeLine{30     std::vector<std::vector<double>> green\_blocks;}
+\DoxyCodeLine{31     std::vector<std::vector<double>> blue\_blocks;}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{keyword}{public}:}
+\DoxyCodeLine{34     \mbox{\hyperlink{classencoded__image}{encoded\_image}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{41     \textcolor{keyword}{explicit} \mbox{\hyperlink{classencoded__image}{encoded\_image}}(uint32\_t block\_size, img\& img);}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{47     \textcolor{keyword}{explicit} \textcolor{keyword}{operator} img() \textcolor{keyword}{const override};}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{57     \mbox{\hyperlink{classencoded__image}{encoded\_image}} \mbox{\hyperlink{classencoded__image_ace6cdec3265f5ad3076287d4c207dbab}{crls\_pca}}(uint32\_t components, uint32\_t MAX\_EPOCHS, \textcolor{keywordtype}{double} eps) \textcolor{keyword}{const};}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{67     \mbox{\hyperlink{classencoded__image}{encoded\_image}} \mbox{\hyperlink{classencoded__image_a58233b1872cac79277656f7bcc690464}{svd\_pca}}(uint32\_t components) \textcolor{keyword}{const};}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{74     \mbox{\hyperlink{classencoded__image}{encoded\_image}} \mbox{\hyperlink{classencoded__image_a503390a4c4f9f735ea07d176f671a84c}{general\_pca}}(\textcolor{keyword}{const} std::function<\mbox{\hyperlink{structpc}{pc}}(std::vector<std::vector<double>>)>\& pca\_function) \textcolor{keyword}{const};}
+\DoxyCodeLine{75 \};}
+\DoxyCodeLine{76 }
+\DoxyCodeLine{77 }
+\DoxyCodeLine{78 }
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//ITO\_IMAGE\_HPP}}
+
+\end{DoxyCode}

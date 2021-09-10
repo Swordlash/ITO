@@ -1,0 +1,116 @@
+\hypertarget{classencoded__image}{}\doxysection{encoded\+\_\+image Class Reference}
+\label{classencoded__image}\index{encoded\_image@{encoded\_image}}
+
+
+{\ttfamily \#include $<$image.\+hpp$>$}
+
+Inheritance diagram for encoded\+\_\+image\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classencoded__image}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classencoded__image_a2e86b1f233bb626f562f36133f4579de}{encoded\+\_\+image}} (uint32\+\_\+t block\+\_\+size, img \&img)
+\item 
+\mbox{\hyperlink{classencoded__image_a31ae083b505533e655a3c7b1e3383416}{operator img}} () const override
+\item 
+\mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} \mbox{\hyperlink{classencoded__image_ace6cdec3265f5ad3076287d4c207dbab}{crls\+\_\+pca}} (uint32\+\_\+t components, uint32\+\_\+t MAX\+\_\+\+EPOCHS, double eps) const
+\item 
+\mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} \mbox{\hyperlink{classencoded__image_a58233b1872cac79277656f7bcc690464}{svd\+\_\+pca}} (uint32\+\_\+t components) const
+\item 
+\mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} \mbox{\hyperlink{classencoded__image_a503390a4c4f9f735ea07d176f671a84c}{general\+\_\+pca}} (const std\+::function$<$ \mbox{\hyperlink{structpc}{pc}}(std\+::vector$<$ std\+::vector$<$ double $>$ $>$)$>$ \&pca\+\_\+function) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Encoded image -\/ a class representing a PNG image decoded to square blocks. Can be compressed by one of the PCA algorithms and written back to the PNG format. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classencoded__image_a2e86b1f233bb626f562f36133f4579de}\label{classencoded__image_a2e86b1f233bb626f562f36133f4579de}} 
+\index{encoded\_image@{encoded\_image}!encoded\_image@{encoded\_image}}
+\index{encoded\_image@{encoded\_image}!encoded\_image@{encoded\_image}}
+\doxysubsubsection{\texorpdfstring{encoded\_image()}{encoded\_image()}}
+{\footnotesize\ttfamily encoded\+\_\+image\+::encoded\+\_\+image (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{block\+\_\+size,  }\item[{img \&}]{img }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+Encode image into square blocks block\+\_\+size x block\+\_\+size 
+\begin{DoxyParams}{Parameters}
+{\em block\+\_\+size} & length of the block side \\
+\hline
+{\em img} & image to be processed \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classencoded__image_ace6cdec3265f5ad3076287d4c207dbab}\label{classencoded__image_ace6cdec3265f5ad3076287d4c207dbab}} 
+\index{encoded\_image@{encoded\_image}!crls\_pca@{crls\_pca}}
+\index{crls\_pca@{crls\_pca}!encoded\_image@{encoded\_image}}
+\doxysubsubsection{\texorpdfstring{crls\_pca()}{crls\_pca()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} encoded\+\_\+image\+::crls\+\_\+pca (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{components,  }\item[{uint32\+\_\+t}]{MAX\+\_\+\+EPOCHS,  }\item[{double}]{eps }\end{DoxyParamCaption}) const}
+
+Compute CRLS PCA algorithm for each of the colour components and transform back to the \mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} structure. 
+\begin{DoxyParams}{Parameters}
+{\em components} & number of components to compute \\
+\hline
+{\em MAX\+\_\+\+EPOCHS} & max. number of epochs per component \\
+\hline
+{\em eps} & epsilon value of an algorithm \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Compressed-\/decompressed image 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classencoded__image_a503390a4c4f9f735ea07d176f671a84c}\label{classencoded__image_a503390a4c4f9f735ea07d176f671a84c}} 
+\index{encoded\_image@{encoded\_image}!general\_pca@{general\_pca}}
+\index{general\_pca@{general\_pca}!encoded\_image@{encoded\_image}}
+\doxysubsubsection{\texorpdfstring{general\_pca()}{general\_pca()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} encoded\+\_\+image\+::general\+\_\+pca (\begin{DoxyParamCaption}\item[{const std\+::function$<$ \mbox{\hyperlink{structpc}{pc}}(std\+::vector$<$ std\+::vector$<$ double $>$ $>$)$>$ \&}]{pca\+\_\+function }\end{DoxyParamCaption}) const}
+
+General PCA compression-\/decompression function 
+\begin{DoxyParams}{Parameters}
+{\em pca\+\_\+function} & function used to calculate principal components \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Compressed-\/decompressed image 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classencoded__image_a31ae083b505533e655a3c7b1e3383416}\label{classencoded__image_a31ae083b505533e655a3c7b1e3383416}} 
+\index{encoded\_image@{encoded\_image}!operator img@{operator img}}
+\index{operator img@{operator img}!encoded\_image@{encoded\_image}}
+\doxysubsubsection{\texorpdfstring{operator img()}{operator img()}}
+{\footnotesize\ttfamily encoded\+\_\+image\+::operator img (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [explicit]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Decode encoded image back to PNG img structure. \begin{DoxyReturn}{Returns}
+PNG image represented by encoded blocks. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classabstract__image}{abstract\+\_\+image}}.
+
+\mbox{\Hypertarget{classencoded__image_a58233b1872cac79277656f7bcc690464}\label{classencoded__image_a58233b1872cac79277656f7bcc690464}} 
+\index{encoded\_image@{encoded\_image}!svd\_pca@{svd\_pca}}
+\index{svd\_pca@{svd\_pca}!encoded\_image@{encoded\_image}}
+\doxysubsubsection{\texorpdfstring{svd\_pca()}{svd\_pca()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} encoded\+\_\+image\+::svd\+\_\+pca (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{components }\end{DoxyParamCaption}) const}
+
+Compute PCA algorithm (through SVD transformation) for each of the colour components and transform back to the \mbox{\hyperlink{classencoded__image}{encoded\+\_\+image}} structure. 
+\begin{DoxyParams}{Parameters}
+{\em components} & number of components to compute \\
+\hline
+{\em MAX\+\_\+\+EPOCHS} & max. number of epochs per component \\
+\hline
+{\em eps} & epsilon value of an algorithm \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Compressed-\/decompressed image 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+image.\+hpp\item 
+image.\+cpp\end{DoxyCompactItemize}
